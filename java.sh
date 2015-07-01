@@ -1,6 +1,8 @@
 #!/bin/bash
 
-export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128M"
+export MAVEN_OPTS="-Xmx512m"
+
+alias mvnDebug='MAVEN_OPTS="$MAVEN_OPTS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" mvn'
 
 function java-set-version {
    ## $1 -> java version (example: 1.7)
