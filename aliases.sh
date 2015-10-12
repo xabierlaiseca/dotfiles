@@ -11,6 +11,9 @@ alias apigee_start="docker run -dP -p 18080:8080 -p 19000:9000 -p 19001:9001 --n
 alias apigee_stop="docker rm -vf $APIGEE_CONTAINER_NAME"
 
 alias docker_clean='docker rm -vf $(docker ps -aq)'
+function docker_all_stats {
+  docker stats $(docker ps|grep -v 'NAMES'|awk '{ print $NF }'|tr '\n' ' ')
+}
 
 ## other
 alias simplehttp="python -m SimpleHTTPServer"
