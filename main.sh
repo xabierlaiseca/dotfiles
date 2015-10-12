@@ -8,3 +8,6 @@ CURRENT_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 . $CURRENT_DIR/shell.sh
 . $CURRENT_DIR/java.sh
 
+if [ -f $CURRENT_DIR/gamesys/main.sh ]; then
+  . $CURRENT_DIR/gamesys/main.sh
+fi
