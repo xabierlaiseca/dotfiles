@@ -4,8 +4,11 @@ export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=512m"
 
 alias mvnDebug='MAVEN_OPTS="$MAVEN_OPTS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" mvn'
 
-function java-print-version {
-  echo $(java -version 2>&1 | sed 's/java version "\(.*\)\.\(.*\)\..*"/Java\2/; 1q')
+function __java_for_prompt {
+  if [[ -n $(upsearch "pom.xml") ]]; then
+    java_version=$(java -version 2>&1 | sed 's/java version "\(.*\)\.\(.*\)\..*"/Java\2/; 1q')
+    printf -- "$1" "$java_version"
+  fi
 }
 
 function java-set-version {
