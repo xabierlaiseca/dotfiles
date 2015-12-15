@@ -16,6 +16,7 @@ function java-set-version {
    export JAVA_HOME=`/usr/libexec/java_home -v $1 2>/dev/null`
 }
 
+alias java-set-version-6='java-set-version 1.6'
 alias java-set-version-7='java-set-version 1.7'
 alias java-set-version-8='java-set-version 1.8'
 
