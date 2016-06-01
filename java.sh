@@ -6,7 +6,7 @@ alias mvnDebug='MAVEN_OPTS="$MAVEN_OPTS -agentlib:jdwp=transport=dt_socket,serve
 
 function __java_for_prompt {
   if [[ -n $(upsearch "pom.xml") ]]; then
-    java_version=$(java -version 2>&1 | sed 's/java version "\(.*\)\.\(.*\)\..*"/Java\2/; 1q')
+    java_version=$(java -version 2>&1 | sed 's/\(openjdk\|java\) version "\(.*\)\.\(.*\)\..*"/Java\3/; 1q')
     printf -- "$1" "$java_version"
   fi
 }
