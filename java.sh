@@ -29,6 +29,12 @@ if [[ $DETECTED_OS == $OS_OSX ]]; then
   alias java-set-7='set-java-home 1.7'
   alias java-set-8='set-java-home 1.8'
 
-  java-set-8
 
+
+fi
+
+## workaround for alias expansion
+## http://unix.stackexchange.com/questions/140263/is-there-some-way-to-make-alias-expansion-work-inside-if-fi-on-bash
+if [[ $DETECTED_OS == $OS_OSX ]]; then
+  java-set-8
 fi
