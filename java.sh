@@ -12,7 +12,7 @@ function __java_for_prompt {
 }
 
 
-if [[ $OSTYPE == "darwin"* ]]; then
+if [[ $DETECTED_OS == $OS_OSX ]]; then
 
   function set-java-home {
     ## $1 -> java version (example: 1.7)
