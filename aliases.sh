@@ -17,3 +17,9 @@ function docker_all_stats {
 
 ## other
 alias simplehttp="python -m SimpleHTTPServer"
+
+function cd {
+  command cd "$@"
+
+  # if [[ bas]]
+}
