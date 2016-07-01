@@ -15,6 +15,6 @@ if [[ $(uname) == "Darwin"  ]]; then
   . $CURRENT_DIR/homebrew.sh
 fi
 
-if [ -f $CURRENT_DIR/gamesys/main.sh ]; then
-  . $CURRENT_DIR/gamesys/main.sh
+if [ -f $CURRENT_DIR/work/main.sh ]; then
+  . $CURRENT_DIR/work/main.sh
 fi
