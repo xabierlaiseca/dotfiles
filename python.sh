@@ -39,7 +39,7 @@ function __venv_activate_by_name {
     else
       echo "Multiple virtual environments found"
 
-      local name=""
+      local name
       for name in $potential_venv_names; do
         echo " * $name"
       done
@@ -53,9 +53,9 @@ function __venv_activate_by_name {
 
 function __venv_activate_from_pwd {
   local dir_to_check=$PWD
-  local venv_name=""
+  local venv_name
 
-  while [ "$dir_to_check" != "/" ] && [ -z $venv_name ]; do
+  while [ "$dir_to_check" != "/" ] && [ -z "$venv_name" ]; do
     local venv_name_to_check=`basename $dir_to_check`
 
     if [ -d $VIRTUAL_ENVS_DIR/$venv_name_to_check ]; then
@@ -72,3 +72,13 @@ function __venv_activate_from_pwd {
     return 1
   fi
 }
+
+function __venv_activate_complete {
+  local venv_location
+  for venv_location in $VIRTUAL_ENVS_DIR/*$2*; do
+    [ -d $venv_location ] || continue
+    COMPREPLY+=( $(basename "$venv_location") )
+  done
+}
+
+complete -F __venv_activate_complete venv-activate
