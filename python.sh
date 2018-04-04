@@ -75,7 +75,7 @@ function __venv_activate_from_pwd {
 
 function __venv_activate_complete {
   local venv_location
-  for venv_location in $VIRTUAL_ENVS_DIR/*$2*; do
+  for venv_location in $VIRTUAL_ENVS_DIR/$2*; do
     [ -d $venv_location ] || continue
     COMPREPLY+=( $(basename "$venv_location") )
   done
