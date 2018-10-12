@@ -28,7 +28,7 @@ if [[ $DETECTED_OS == $OS_OSX ]]; then
   alias java-set-6='set-java-home 1.6'
   alias java-set-7='set-java-home 1.7'
   alias java-set-8='set-java-home 1.8'
-
+  alias java-set-10='set-java-home 10'
 fi
 
 ## workaround for alias expansion
