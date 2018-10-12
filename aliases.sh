@@ -54,3 +54,8 @@ function gpg-decrypt {
 
 ## other
 alias simplehttp="python -m SimpleHTTPServer"
+
+function random_string {
+  local length=${1:-32}
+  LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | fold -w ${1:-$length} | head -n 1
+}
