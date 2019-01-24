@@ -526,3 +526,5 @@ __git_ps1 ()
 
 	return $exit
 }
+
+PROMPT_SECTIONS+=("__git_ps1")

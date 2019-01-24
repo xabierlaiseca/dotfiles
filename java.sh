@@ -36,3 +36,5 @@ fi
 if [[ $DETECTED_OS == $OS_OSX ]]; then
   java-set-8
 fi
+
+PROMPT_SECTIONS+=("__jvm_for_prompt")

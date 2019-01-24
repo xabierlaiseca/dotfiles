@@ -13,3 +13,9 @@ else
 fi
 
 export DETECTED_OS
+
+if [ -n "${PROMPT_SECTIONS+1}" ]; then
+  PROMPT_SECTIONS=()
+else
+  declare -a PROMPT_SECTIONS
+fi
