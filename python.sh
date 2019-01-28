@@ -1,84 +1,39 @@
 #!/bin/bash
 
-VIRTUAL_ENVS_DIR="$HOME/virtualenvs"
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+  export WORKON_HOME="$HOME/virtualenvs"
+  mkdir -p $WORKON_HOME
+  source /usr/local/bin/virtualenvwrapper.sh
 
-function venv-create {
-  local venv_name=${1:-$(basename $PWD)}
+  function __alias_completion () {
+    local function_name="$2"
+    local arg_count=$(($#-3))
+    local comp_function_name="$1"
+    shift 2
+    local function="
+      function $function_name {
+        ((COMP_CWORD+=$arg_count))
+        COMP_WORDS=( "$@" \${COMP_WORDS[@]:1} )
+        "$comp_function_name"
+        return 0
+      }"
+    eval "$function"
+  }
 
-  if [ -d "$VIRTUAL_ENVS_DIR/$venv_name" ]; then
-    echo "virtual environment already exists"
-    return 1
-  fi
+  alias venv-create='mkvirtualenv'
+  alias venv-ls='lsvirtualenv -b'
+  alias venv-activate='workon'
+  alias venv-cp='cpvirtualenv'
+  alias venv-rm='rmvirtualenv'
 
-  local prompt_arg="--prompt=(venv \[$Green\]$venv_name\[$Color_Off\]) "
+  __alias_completion _virtualenvs __venv_activate_completion_setup workon
+  complete -F __venv_activate_completion_setup venv-activate
 
-  mkdir -p $VIRTUAL_ENVS_DIR
-  (cd $VIRTUAL_ENVS_DIR && virtualenv "$prompt_arg" $venv_name)
-}
+  __alias_completion _virtualenvs __venv_cp_completion_setup cpvirtualenv
+  complete -F __venv_cp_completion_setup venv-cp
 
-function venv-activate {
-  if [ -n "$1" ]; then
-    __venv_activate_by_name $1
-  else
-    __venv_activate_from_pwd
-  fi
-}
-
-function __venv_activate_by_name {
-  if [ -d $VIRTUAL_ENVS_DIR/$1 ]; then
-      local venv_name=$1
-  else
-    local potential_venv_names=`find $VIRTUAL_ENVS_DIR -maxdepth 1 -type d -name "*$1*"`
-    local potential_venv_count=`echo $potential_venv_names | wc -w`
-
-    if [ $potential_venv_count == "1" ]; then
-      local venv_name=`echo $potential_venv_names | head -n 1 | xargs basename`
-    elif [ $potential_venv_count == "0" ]; then
-      echo "Could not find virtual environment"
-      return 1
-    else
-      echo "Multiple virtual environments found"
-
-      local name
-      for name in $potential_venv_names; do
-        echo " * $name"
-      done
-
-      return 1
-    fi
-  fi
-
-  source $VIRTUAL_ENVS_DIR/$venv_name/bin/activate
-}
-
-function __venv_activate_from_pwd {
-  local dir_to_check=$PWD
-  local venv_name
-
-  while [ "$dir_to_check" != "/" ] && [ -z "$venv_name" ]; do
-    local venv_name_to_check=`basename $dir_to_check`
-
-    if [ -d $VIRTUAL_ENVS_DIR/$venv_name_to_check ]; then
-      venv_name=$venv_name_to_check
-    else
-      dir_to_check=`dirname $dir_to_check`
-    fi
-  done
-
-  if [ -n $venv_name ]; then
-    source $VIRTUAL_ENVS_DIR/$venv_name/bin/activate
-  else
-    echo "Could not find virtual environment"
-    return 1
-  fi
-}
-
-function __venv_activate_complete {
-  local venv_location
-  for venv_location in $VIRTUAL_ENVS_DIR/$2*; do
-    [ -d $venv_location ] || continue
-    COMPREPLY+=( $(basename "$venv_location") )
-  done
-}
-
-complete -F __venv_activate_complete venv-activate
+  __alias_completion _virtualenvs __venv_rm_completion_setup rmvirtualenv
+  complete -F __venv_rm_completion_setup venv-rm
+else
+  echo "Execute `pip install virtualenvwrapper`"
+fi
