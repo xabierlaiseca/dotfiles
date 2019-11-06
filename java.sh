@@ -11,30 +11,6 @@ function __jvm_for_prompt {
   fi
 }
 
-
-if [[ $DETECTED_OS == $OS_OSX ]]; then
-
-  function set-java-home {
-    ## $1 -> java version (example: 1.7)
-    local java_home_output
-    java_home_output=`/usr/libexec/java_home -v $1 2>/dev/null`
-    if [ $? -eq 0 ]; then
-      export JAVA_HOME=$java_home_output
-    else
-      echo "Java version $1 not found"
-    fi
-  }
-
-  alias java-set-6='set-java-home 1.6'
-  alias java-set-7='set-java-home 1.7'
-  alias java-set-8='set-java-home 1.8'
-  alias java-set-10='set-java-home 10'
-fi
-
-## workaround for alias expansion
-## http://unix.stackexchange.com/questions/140263/is-there-some-way-to-make-alias-expansion-work-inside-if-fi-on-bash
-if [[ $DETECTED_OS == $OS_OSX ]]; then
-  java-set-8
-fi
+eval "$(jenv init -)"
 
 PROMPT_SECTIONS+=("__jvm_for_prompt")
